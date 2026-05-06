@@ -1,0 +1,126 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and roles",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth unique ID" },
+        "name": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "description": "Email address" },
+        "role": { "type": "string", "enum": ["buyer", "seller", "courier"] },
+        "avatar": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt"]
+    },
+    "Product": {
+      "title": "Marketplace Product",
+      "description": "Items listed for sale",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "image": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "sellerId", "createdAt"]
+    },
+    "Order": {
+      "title": "Purchase Order",
+      "description": "A transaction between buyer and seller",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "buyerId": { "type": "string" },
+        "sellerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "delivered", "cancelled"] },
+        "amount": { "type": "number" },
+        "commission": { "type": "number" },
+        "netPayout": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "buyerId", "sellerId", "status", "amount", "commission", "netPayout", "createdAt"]
+    },
+    "Delivery": {
+      "title": "Delivery Job",
+      "description": "A logistics task associated with an order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "courierId": { "type": "string" },
+        "status": { "type": "string", "enum": ["available", "picked_up", "delivering", "completed"] },
+        "pickupAddress": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "fee": { "type": "number" },
+        "commission": { "type": "number" },
+        "netPayout": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "status", "fee", "commission", "netPayout", "createdAt"]
+    },
+    "Message": {
+      "title": "Chat Message",
+      "description": "Communication between parties",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "system"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "text", "createdAt"]
+    },
+    "Leader": {
+      "title": "Yearly Leader",
+      "description": "Top performers of the year (Best Seller/Buyer)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["seller", "buyer"] },
+        "rank": { "type": "number" },
+        "score": { "type": "number", "description": "e.g. Sales volume or items bought" },
+        "prize": { "type": "string", "description": "Reward granted to the user" },
+        "year": { "type": "number" },
+        "avatar": { "type": "string" }
+      },
+      "required": ["userId", "name", "type", "rank", "score", "year"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Marketplace items"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Managed transactions"
+    },
+    "/orders/{orderId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Order-specific chat history"
+    },
+    "/deliveries/{deliveryId}": {
+      "schema": "Delivery",
+      "description": "Logistics jobs"
+    },
+    "/leaderboard/{leaderId}": {
+      "schema": "Leader",
+      "description": "Yearly Hall of Fame"
+    }
+  }
+}

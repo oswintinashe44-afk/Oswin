@@ -1,0 +1,6 @@
+{
+  "name": "HustleHub OS",
+  "description": "High-performance decentralized commerce operating system. Featuring AI-powered trade, autonomous logistics, and neural business intelligence.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["AI Assistant", "Marketplace", "Logistics", "Barcode Scanning"]
+}
